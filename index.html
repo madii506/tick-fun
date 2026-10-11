@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" class="js loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TICK</title>
+<meta name="description" content="Launch a coin priced in any pump.fun coin. Every buy of your tick buys its host first.">
+<meta name="theme-color" content="#0b0607">
+<meta property="og:title" content="TICK">
+<meta property="og:description" content="Launch a coin priced in any pump.fun coin. Every buy of your tick buys its host first.">
+<meta property="og:image" content="https://tick-fun.vercel.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tick-fun.vercel.app/assets/og.png">
+<link rel="icon" href="/assets/icon-64.png?v=1" sizes="64x64" type="image/png">
+<link rel="icon" href="/assets/icon-32.png?v=1" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icon-180.png?v=1">
+<link rel="preload" href="/assets/silk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/app.css?v=1">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="vig" aria-hidden="true"></div>
+<div class="load" id="load" aria-hidden="true"><img src="/assets/tick.png" alt=""><div class="bar"><i id="loadbar"></i><b></b></div></div>
+<div class="sr" aria-live="polite" id="live"></div>
+
+<div class="scam" id="scam"><div class="wrap" id="scamin"><span><b>$TICK DOES NOT EXIST YET.</b> ANYONE POSTING A CA BEFORE IT APPEARS HERE IS SCAMMING YOU.</span></div></div>
+
+<nav class="top" aria-label="Sections"><div class="links" id="links">
+  <a href="#hosts">HOSTS</a><a href="#launch">LAUNCH</a><a href="#ticks">TICKS</a><a href="#body">BODY</a><a href="#rules">RULES</a><a href="#faq">FAQ</a>
+</div></nav>
+
+<header class="hero" id="top">
+  <canvas id="word" class="pix" width="200" height="110" aria-label="TICK"></canvas>
+  <form class="eq" id="eq" autocomplete="off">
+    <div class="field"><span class="op" aria-hidden="true">＋</span><input id="eqt" maxlength="10" placeholder="YOUR TICKER" aria-label="Your ticker" spellcheck="false"></div>
+    <span class="op">+</span>
+    <div class="field host"><input id="eqh" placeholder="Host coin address" aria-label="Host coin address" spellcheck="false"></div>
+    <span class="op">→</span>
+    <button class="btn" type="submit">LATCH</button>
+  </form>
+  <div class="eqmsg" id="eqmsg"></div>
+  <div class="live" id="herolive" hidden>
+    <div class="k"><span><i></i>HOSTS ON PUMP.FUN · LIVE</span><span id="lk"></span></div>
+    <a class="lcard" id="lcard" href="#hosts"></a>
+    <div class="dots" id="ldots"></div>
+  </div>
+</header>
+
+<main>
+<section class="band" id="hosts">
+  <div class="wrap">
+    <div class="head">
+      <div class="rv"><div class="eyebrow">01 — HOSTS</div><h2>Every tick needs a host.<br><em>Pick any pump.fun coin.</em></h2>
+        <p class="lede">The host is the coin your tick is priced in. Buying your tick buys the host first, and every tick keeps the host's coins in its curve for as long as people hold it.</p></div>
+      <div class="state" id="hstate"></div>
+    </div>
+    <form class="hostbar" id="hcheck" autocomplete="off">
+      <div class="field"><input id="hq" placeholder="Paste any pump.fun coin address" aria-label="Coin address" spellcheck="false"></div>
+      <button class="btn ghost" type="submit">CHECK</button>
+    </form>
+    <div class="verdict" id="verdict"></div>
+    <div class="head" style="margin-bottom:12px"><div class="tabs" id="htabs"><button data-v="top" class="on">BIGGEST</button><button data-v="new">NEWEST</button><button data-v="bitten">BITTEN</button></div></div>
+    <div class="board" id="hboard"></div>
+    <div class="more"><button class="btn ghost sm" id="hmore" hidden>SHOW MORE</button></div>
+  </div>
+</section>
+
+<section class="band dim" id="launch">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">02 — LAUNCH</div><h2>Name it. Pick the host.<br><em>Latch.</em></h2></div><div class="state" id="lstate"></div></div>
+    <div class="launch">
+      <form class="form" id="lform" autocomplete="off">
+        <div><label class="lab" for="fhost">HOST</label>
+          <div id="hostpicked" hidden></div>
+          <div class="field" id="hostfield"><input id="fhost" placeholder="Host coin address" spellcheck="false"></div></div>
+        <div class="two">
+          <div><label class="lab" for="fname">NAME</label><div class="field"><input id="fname" maxlength="32" placeholder="Name your tick"></div></div>
+          <div><label class="lab" for="fsym">TICKER</label><div class="field"><input id="fsym" maxlength="10" placeholder="TICKER" style="font-family:S;letter-spacing:.06em;text-transform:uppercase" spellcheck="false"></div></div>
+        </div>
+        <div><label class="lab">IMAGE</label><label class="drop" id="drop" for="fimg"><span id="droptxt">DROP AN IMAGE OR CLICK</span></label><input type="file" id="fimg" accept="image/png,image/jpeg,image/gif,image/webp" hidden></div>
+        <div><label class="lab" for="fdesc">DESCRIPTION</label><div class="field"><textarea id="fdesc" maxlength="400" rows="3" placeholder="Optional"></textarea></div></div>
+        <div class="three">
+          <div><label class="lab" for="fx">X</label><div class="field"><input id="fx" placeholder="Optional" spellcheck="false"></div></div>
+          <div><label class="lab" for="ftg">TELEGRAM</label><div class="field"><input id="ftg" placeholder="Optional" spellcheck="false"></div></div>
+          <div><label class="lab" for="fweb">WEBSITE</label><div class="field"><input id="fweb" placeholder="Optional" spellcheck="false"></div></div>
+        </div>
+        <div><label class="lab" for="fdev">YOUR FIRST BUY</label><div class="field"><input id="fdev" inputmode="decimal" placeholder="0"><span class="unit">SOL</span></div></div>
+      </form>
+      <div class="preview">
+        <div class="pcard">
+          <div class="top"><div class="pimg" id="pimg"><span class="hb" id="phb" hidden></span></div><div style="min-width:0"><div class="pn" id="pn">Your tick</div><div class="pt" id="pt">$TICKER / $HOST</div></div></div>
+          <div class="pd" id="pd"></div>
+        </div>
+        <div class="pcard">
+          <table class="table" id="cost"><tbody>
+            <tr><td>Launch</td><td id="cl">—</td></tr>
+            <tr><td>Your first buy</td><td id="cd">0 SOL</td></tr>
+            <tr class="tot"><td>You send</td><td id="ct">—</td></tr>
+          </tbody></table>
+          <div class="split"><div class="bar"><i class="a" style="width:50%"></i><i class="b" style="width:50%"></i></div>
+            <div class="lg"><span>To you, in <b id="lgh">the host</b> <b id="lga">50%</b></span><span>Buys and burns <b>$TICK</b> <b id="lgb">50%</b></span></div></div>
+        </div>
+        <div class="go">
+          <button class="btn" id="golaunch" type="button">LATCH</button>
+          <button class="btn ghost sm" id="wbtn" type="button">CONNECT WALLET</button>
+        </div>
+        <div class="note" id="lnote"></div>
+        <div class="steps" id="lsteps" hidden>
+          <div class="step" data-s="0"><i></i><span>Send the launch from your wallet</span></div>
+          <div class="step" data-s="1"><i></i><span>The engine creates your tick on pump.fun</span></div>
+          <div class="step" data-s="2"><i></i><span>Your first buy lands in your wallet</span></div>
+        </div>
+        <div class="result" id="lresult" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="ticks">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">03 — TICKS</div><h2>Every tick on the board,<br><em>and how much host it holds.</em></h2></div>
+      <div class="tabs" id="ttabs"><button data-v="new" class="on">NEWEST</button><button data-v="fat">FATTEST</button><button data-v="fed">MOST PAID</button></div></div>
+    <div class="board" id="tboard"></div>
+    <div class="more"><button class="btn ghost sm" id="tmore" hidden>SHOW MORE</button></div>
+  </div>
+</section>
+
+<section class="band dim" id="body">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">04 — THE BODY</div><h2>Every host on the board,<br><em>and what is biting it.</em></h2></div><div class="state" id="bstate"></div></div>
+    <div class="body" id="bodyfield"></div>
+  </div>
+</section>
+
+<section class="band" id="rules">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">05 — THE RULES</div><h2>How a tick <em>drinks.</em></h2></div></div>
+    <div class="flow rv" id="flow"></div>
+    <div class="rules">
+      <div class="clause rv"><div class="no">05.1</div><h3>The host</h3><p>Any pump.fun coin that trades against SOL or USDC, on its bonding curve or in its PumpSwap pool. A tick can't host another tick, and a mayhem-mode coin can't host. Paste an address in 01 and the site asks pump.fun's program before you spend anything.</p></div>
+      <div class="clause rv"><div class="no">05.2</div><h3>The launch</h3><p>The engine creates your coin with pump.fun's own <b>create_v2</b> instruction, priced in the host. Its starting price comes from the host's live price, so it opens like any pump.fun coin, measured in the host instead of SOL.</p></div>
+      <div class="clause rv"><div class="no">05.3</div><h3>Buying a tick</h3><p>Buyers still pay in SOL. pump.fun routes it in one transaction: <b>SOL buys the host, the host buys the tick.</b> Selling runs the same route backwards.</p></div>
+      <div class="clause rv"><div class="no">05.4</div><h3>The drink</h3><p>A tick's bonding curve holds the host coins its buyers paid in. <b>While people hold the tick, those host coins stay locked in its curve.</b> When the tick graduates, they move into its PumpSwap pool. The board shows how much each tick holds, read from the chain.</p></div>
+      <div class="clause rv"><div class="no">05.5</div><h3>The fees</h3><p>pump.fun pays a tick's creator fee in the host coin, into the tick's own engine wallet. Every tick has its own wallet, so no two ticks' fees ever mix.</p></div>
+      <div class="clause rv"><div class="no">05.6</div><h3>The split, every hour</h3><p>Every hour the engine claims what is waiting. <b>Half goes to the launcher, in the host coin.</b> The other half is sold for SOL, buys <b>$TICK</b>, and that $TICK is burned.</p></div>
+      <div class="clause rv"><div class="no">05.7</div><h3>The cost</h3><p>A launch costs <b id="rcost">0.03 SOL</b> plus any first buy. It pays pump.fun's rent for the new coin and the transaction fees of the tick's hourly claims. Your first buy is made in the same minute and sent to your wallet.</p></div>
+      <div class="clause rv"><div class="no">05.8</div><h3>Before $TICK exists</h3><p>Until $TICK is live, the buyback half waits in each tick's engine wallet, in the host coin. The first hour after $TICK appears on this page, the engine sells it and burns what it buys.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band dim" id="engine">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">06 — THE ENGINE</div><h2>One engine.<br><em>Every move on-chain.</em></h2></div></div>
+    <table class="cannot rv">
+      <thead><tr><th>IT CANNOT</th><th>SO IT</th></tr></thead>
+      <tbody>
+        <tr><td>Touch the coins you hold</td><td>only signs for each tick's engine wallet, which receives that tick's creator fees and nothing else</td></tr>
+        <tr><td>Change a tick's price, curve or supply</td><td>leaves those to pump.fun's program, exactly like any other pump.fun coin</td></tr>
+        <tr><td>Mix two ticks' fees</td><td>gives every tick its own engine wallet, so each tick's money is separate and public</td></tr>
+        <tr><td>Hide a payout</td><td>links every claim, payout, sale and burn as a Solana transaction on the tick's page</td></tr>
+      </tbody>
+    </table>
+    <div class="operator">
+      <div class="rv"><h3>Who runs it</h3><p>The engine runs on this site's server. It holds the keys to every tick's engine wallet, derived from one secret. That makes TICK custodial for creator fees, between a claim and its payout, usually less than a minute. Nobody else can move them, and nothing else sits in those wallets.</p></div>
+      <div class="rv"><h3>What could go wrong, and where you'd see it</h3><ul>
+        <li>The engine stops claiming: the tick's page shows the last claim and the fees still waiting.</li>
+        <li>A payout is wrong: every payout links its transaction, next to the claim it came from.</li>
+        <li>The host dies: the tick keeps trading, priced in a coin nobody wants.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="head"><div class="rv"><div class="eyebrow">07 — FAQ</div><h2>The obvious questions.</h2></div></div>
+    <div class="faq rv">
+      <details><summary>Why would a host's holders want a tick on their coin?</summary><p>Every tick buy is a buy of the host, and every tick that people hold keeps host coins locked in its curve. A host with a hundred ticks has a hundred curves holding its supply.</p></details>
+      <details><summary>Do I need the host's permission?</summary><p>No. Any pump.fun coin that trades against SOL or USDC can host. Nobody behind a host is asked, contacted or paid, and a tick on a coin is not an endorsement by that coin.</p></details>
+      <details><summary>What do I get as the launcher?</summary><p><b>Half of your tick's creator fees, every hour</b>, paid in the host coin to the wallet you launched from. Plus whatever your first buy got you.</p></details>
+      <details><summary>What happens to the other half?</summary><p>It is sold for SOL, the SOL buys $TICK, and the $TICK is burned. Before $TICK exists it waits in the tick's engine wallet, in the host coin.</p></details>
+      <details><summary>Can a tick host another tick?</summary><p>No. pump.fun allows one level: a host must itself trade against SOL or USDC.</p></details>
+      <details><summary>What if the host dumps?</summary><p>Your tick is priced in the host, so its value in SOL moves with the host as well as with its own buyers. A tick on a dead host is a coin priced in a dead coin.</p></details>
+      <details><summary>Is TICK part of pump.fun?</summary><p>No. TICK uses pump.fun's public program and SDK. Ticks are ordinary pump.fun coins: you can find them, chart them and trade them on pump.fun.</p></details>
+      <details><summary>What is $TICK?</summary><p>TICK's own coin. You don't need it to launch or to trade a tick. Half of every tick's fees buy it and burn it, every hour.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="sheet" id="sheet" hidden><div class="in" id="sheetin"></div></div>
+<script src="/assets/app.js?v=1" defer></script>
+</body>
+</html>
