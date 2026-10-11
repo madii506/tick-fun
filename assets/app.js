@@ -32,7 +32,7 @@ function coin(g,cx,cy,R,p){for(let y=-R;y<=R;y++)for(let x=-R;x<=R;x++){const d=
 (function(){const cv=$('#bg'),g=cv.getContext('2d');let W,H,coins=[],ticks=[],specks=[],drips=[],on=true,f=0;
  function size(){W=Math.ceil(innerWidth/3);H=Math.ceil(innerHeight/3);cv.width=W;cv.height=H;
   coins=Array.from({length:Math.max(4,Math.round(W/70))},(_,i)=>({x:Math.random()*W,y:Math.random()*H,r:4+Math.random()*4|0,p:PAL[i%PAL.length],vx:(Math.random()-.5)*.08,vy:-(.03+Math.random()*.08),ph:Math.random()*6}));
-  ticks=Array.from({length:Math.max(5,Math.round(W/55))},()=>({x:Math.random()*W,y:Math.random()*H,s:.18+Math.random()*.3,st:'seek',t:0,c:null,a:Math.random()*6}));
+  ticks=[];
   specks=Array.from({length:Math.round(W*H/900)},()=>({x:Math.random()*W|0,y:Math.random()*H|0,k:Math.random()}))}
  size();addEventListener('resize',size);document.addEventListener('visibilitychange',()=>{on=!document.hidden});
  function step(){f++;g.clearRect(0,0,W,H);
@@ -57,7 +57,7 @@ C:["..#####",".######","##.....","##.....","##.....","##.....","##.....",".#####
   for(const k of face){const[x,y]=k.split(',').map(Number);g.fillStyle=!has(x,y-1)?'#fffbf5':!has(x,y+1)?'#d8c3b3':!has(x-1,y)?'#fbefe4':'#f4e6da';g.fillRect(x,y,1,1)}}
  const stem=pos.I+c;let n=0;
  function draw(){base();const bob=(n>>1)%2,blink=n%17===0;g.drawImage(tick,stem-22,y0+3*c-46+4-bob);if(blink){g.fillStyle='#3a1b21';g.fillRect(stem-22+17,y0+3*c-46+4-bob+12,10,3)}n++}
- function fit(){const k=Math.max(1,Math.floor(Math.min(innerWidth*.9,780)/200*2)/2);cv.style.width=200*k+'px';cv.style.height=96*k+'px'}
+ function fit(){const k=Math.max(1,Math.floor(Math.min(innerWidth*.82,600)/200*2)/2);cv.style.width=200*k+'px';cv.style.height=96*k+'px'}
  cv.height=96;fit();addEventListener('resize',fit);
  const go=()=>{draw();if(!RM)setInterval(()=>{if(!document.hidden)draw()},260)};tick.complete?go():tick.onload=go;
  cv.addEventListener('click',()=>{$('#hosts').scrollIntoView()})})();
@@ -177,7 +177,7 @@ $('#eqt').addEventListener('input',e=>{const v=e.target.value.replace(/[^a-z0-9]
  $$('#flow canvas').forEach(c=>{const g=c.getContext('2d');const go=()=>nodes[+c.dataset.n][2](g);go()})})();
 
 /* ---------- the scam line, nav state, reveals ---------- */
-if(CFG.ca){$('#scamin').innerHTML=`<span><b>OFFICIAL $TICK</b></span><code>${esc(CFG.ca)}</code><button id="cacopy">COPY</button><span>ANYTHING ELSE IS NOT OURS</span>`;$('#cacopy').onclick=()=>navigator.clipboard&&navigator.clipboard.writeText(CFG.ca).then(()=>{$('#cacopy').textContent='COPIED'})}
+if(CFG.ca&&$('#scamin')){$('#scamin').innerHTML=`<span><b>OFFICIAL $TICK</b></span><code>${esc(CFG.ca)}</code><button id="cacopy">COPY</button><span>ANYTHING ELSE IS NOT OURS</span>`;$('#cacopy').onclick=()=>navigator.clipboard&&navigator.clipboard.writeText(CFG.ca).then(()=>{$('#cacopy').textContent='COPIED'})}
 const secs=['hosts','launch','ticks','body','rules','faq'];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){$$('#links a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
 secs.forEach(id=>{const el=$('#'+id);if(el)io.observe(el)});
