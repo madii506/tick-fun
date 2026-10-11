@@ -22,11 +22,13 @@ const tick=new Image();tick.src='/assets/tick.png';
 const PAL=[['#ffe7a3','#f2b134','#9a6418'],['#e3ebf3','#a9b6c4','#5c6876'],['#9dfbc4','#4fcf8c','#20784a'],['#cdb6ff','#9a72ff','#5532b5'],['#ffc08f','#ff8a3d','#a3471a']];
 function coin(g,cx,cy,R,p){for(let y=-R;y<=R;y++)for(let x=-R;x<=R;x++){const d=Math.hypot(x+.5,y+.5);if(d>R)continue;let c=p[1];if(d>R-1.2)c=p[2];else if(d>R-2.2)c=p[0];else if(-x-y>R*.5)c=p[0];else if(x+y>R*.6)c=p[2];g.fillStyle=c;g.fillRect(cx+x,cy+y,1,1)}}
 
-/* ---------- loader: the tick, a bar, no words ---------- */
-(function(){const t0=performance.now(),span=RM?200:1300,bar=$('#loadbar');let done=false;
- const fin=()=>{if(done)return;done=true;$('#load').classList.add('gone');document.documentElement.classList.remove('loading');setTimeout(()=>$('#load').remove(),500)};
- (function f(){const k=Math.min(1,(performance.now()-t0)/span);bar.style.width=(k*100)+'%';if(k<1&&!done)requestAnimationFrame(f);else setTimeout(fin,120)})();
- setTimeout(fin,span+1000)})();
+/* ---------- the background: starry dust, twinkling ---------- */
+(function(){const cv=$('#bg');if(!cv)return;const g=cv.getContext('2d');let W,H,specks=[],on=true;
+ function size(){W=Math.ceil(innerWidth/3);H=Math.ceil(innerHeight/3);cv.width=W;cv.height=H;specks=Array.from({length:Math.round(W*H/700)},()=>({x:Math.random()*W|0,y:Math.random()*H|0,k:Math.random(),v:(Math.random()-.5)*.04}))}
+ size();addEventListener('resize',size);document.addEventListener('visibilitychange',()=>{on=!document.hidden});
+ function step(){g.clearRect(0,0,W,H);for(const s of specks){if(Math.random()<.025)s.k=Math.random();s.x+=s.v;if(s.x<0)s.x=W-1;if(s.x>=W)s.x=0;
+  g.fillStyle=s.k>.94?'rgba(244,230,218,.6)':s.k>.72?'rgba(255,77,99,.24)':'rgba(255,77,99,.08)';g.fillRect(s.x|0,s.y,1,1)}}
+ step();if(RM)return;let last=0;(function loop(ts){requestAnimationFrame(loop);if(!on||ts-last<42)return;last=ts;step()})(0)})();
 
 /* ---------- hero: the wordmark, its i dotted by a live tick ---------- */
 const G={T:["########","########","...##...","...##...","...##...","...##...","...##...","...##...","...##..."],I:["..","..","..","##","##","##","##","##","##"],
