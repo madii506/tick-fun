@@ -28,24 +28,6 @@ function coin(g,cx,cy,R,p){for(let y=-R;y<=R;y++)for(let x=-R;x<=R;x++){const d=
  (function f(){const k=Math.min(1,(performance.now()-t0)/span);bar.style.width=(k*100)+'%';if(k<1&&!done)requestAnimationFrame(f);else setTimeout(fin,120)})();
  setTimeout(fin,span+1000)})();
 
-/* ---------- the living background: coins drifting, ticks crawling to them and drinking ---------- */
-(function(){const cv=$('#bg'),g=cv.getContext('2d');let W,H,coins=[],ticks=[],specks=[],drips=[],on=true,f=0;
- function size(){W=Math.ceil(innerWidth/3);H=Math.ceil(innerHeight/3);cv.width=W;cv.height=H;
-  coins=Array.from({length:Math.max(4,Math.round(W/70))},(_,i)=>({x:Math.random()*W,y:Math.random()*H,r:4+Math.random()*4|0,p:PAL[i%PAL.length],vx:(Math.random()-.5)*.08,vy:-(.03+Math.random()*.08),ph:Math.random()*6}));
-  ticks=[];
-  specks=Array.from({length:Math.round(W*H/900)},()=>({x:Math.random()*W|0,y:Math.random()*H|0,k:Math.random()}))}
- size();addEventListener('resize',size);document.addEventListener('visibilitychange',()=>{on=!document.hidden});
- function step(){f++;g.clearRect(0,0,W,H);
-  for(const s of specks){if(Math.random()<.02)s.k=Math.random();g.fillStyle=s.k>.93?'rgba(244,230,218,.55)':s.k>.7?'rgba(255,77,99,.22)':'rgba(255,77,99,.07)';g.fillRect(s.x,s.y,1,1)}
-  for(const c of coins){c.x+=c.vx+Math.sin(f/90+c.ph)*.05;c.y+=c.vy;if(c.y<-12){c.y=H+12;c.x=Math.random()*W}if(c.x<-12)c.x=W+12;if(c.x>W+12)c.x=-12;coin(g,Math.round(c.x),Math.round(c.y),c.r,c.p)}
-  for(const t of ticks){
-   if(t.st==='seek'){if(!t.c||Math.random()<.002)t.c=coins[Math.random()*coins.length|0];const dx=t.c.x-t.x,dy=t.c.y-t.c.r-3-t.y,d=Math.hypot(dx,dy);if(d<2){t.st='latch';t.t=120+Math.random()*260;t.a=-Math.PI/2+(Math.random()-.5)*1.6}else{t.x+=dx/d*t.s;t.y+=dy/d*t.s}}
-   else if(t.st==='latch'){t.x=t.c.x+Math.cos(t.a)*(t.c.r+2);t.y=t.c.y+Math.sin(t.a)*(t.c.r+2)-4;if(f%22===0)drips.push({x:t.x+7,y:t.y+12,l:40});if(--t.t<=0){t.st='seek';t.c=coins[Math.random()*coins.length|0]}}
-   const fr=(t.st==='seek'&&(f>>3)%2)?SB:SA;g.drawImage(fr,Math.round(t.x),Math.round(t.y))}
-  for(let i=drips.length-1;i>=0;i--){const d=drips[i];d.y+=.35;d.l--;g.fillStyle=`rgba(224,40,63,${d.l/40})`;g.fillRect(Math.round(d.x),Math.round(d.y),1,2);if(d.l<=0)drips.splice(i,1)}}
- if(RM){step();return}
- let last=0;(function loop(ts){requestAnimationFrame(loop);if(!on||ts-last<42)return;last=ts;step()})(0)})();
-
 /* ---------- hero: the wordmark, its i dotted by a live tick ---------- */
 const G={T:["########","########","...##...","...##...","...##...","...##...","...##...","...##...","...##..."],I:["..","..","..","##","##","##","##","##","##"],
 C:["..#####",".######","##.....","##.....","##.....","##.....","##.....",".######","..#####"],K:["##...##","##..##.","##.##..","####...","###....","####...","##.##..","##..##.","##...##"]};
@@ -57,7 +39,7 @@ C:["..#####",".######","##.....","##.....","##.....","##.....","##.....",".#####
   for(const k of face){const[x,y]=k.split(',').map(Number);g.fillStyle=!has(x,y-1)?'#fffbf5':!has(x,y+1)?'#d8c3b3':!has(x-1,y)?'#fbefe4':'#f4e6da';g.fillRect(x,y,1,1)}}
  const stem=pos.I+c;let n=0;
  function draw(){base();const bob=(n>>1)%2,blink=n%17===0;g.drawImage(tick,stem-22,y0+3*c-46+4-bob);if(blink){g.fillStyle='#3a1b21';g.fillRect(stem-22+17,y0+3*c-46+4-bob+12,10,3)}n++}
- function fit(){const k=Math.max(1,Math.floor(Math.min(innerWidth*.82,600)/200*2)/2);cv.style.width=200*k+'px';cv.style.height=96*k+'px'}
+ function fit(){const k=Math.max(1,Math.floor(Math.min(innerWidth*.8,500)/200*2)/2);cv.style.width=200*k+'px';cv.style.height=96*k+'px'}
  cv.height=96;fit();addEventListener('resize',fit);
  const go=()=>{draw();if(!RM)setInterval(()=>{if(!document.hidden)draw()},260)};tick.complete?go():tick.onload=go;
  cv.addEventListener('click',()=>{$('#hosts').scrollIntoView()})})();
